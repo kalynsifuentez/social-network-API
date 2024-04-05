@@ -1,34 +1,41 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const userSchema = new Schema(
   {
-    first: String,
-    last: String,
-    age: Number,
+    username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    },
+    email:{
+      type: String,
+      required: true,
+    },
+    friends:[
+      {type: Schema.Types.ObjectId,
+      ref: "User"}
+    ],
+    thoughts:[
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Thought",
+      }
+    ]
   },
   {
     toJSON: {
-      // TODO: Mongoose will not include virtuals by default, so add a `virtuals` property and set it's value to true
       virtuals: true,
     },
     id: false,
   }
 );
 
-// TODO: Create a virtual property `fullName` on the userSchema
-userSchema.virtual('fullName')
-// TODO: Create a getter for the virtual that returns the full name of the user (first + last)
+userSchema.virtual('friendCount')
 .get(function () {
-  return `${this.first} ${this.last}`;
-})
-// TODO: Create a setter for the virtual that sets the value of the first and last name, given just the `fullName`
-.set(function(v)
-{
-  const first = v.split(' ')[0];
-  const last = v.split(' ')[1];
-this.set({first, last})
+  return this.friends.length;
 });
-// Initialize our User model
-const User = model('user', userSchema);
+
+const User = model('User', userSchema);
 
 module.exports = User;
