@@ -31,6 +31,8 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 ## Mock Up
 
 The following linked video show examples of the application's API routes being tested in Insomnia.
+https://drive.google.com/file/d/1wT8JNTt3mQzi0TwxblqNxlzHZs_8Z2uG/view
+
 
 
 ## Repo Link
